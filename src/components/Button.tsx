@@ -15,7 +15,8 @@ variants:{
         //normal button with background
     default:["bg-secondary","hover:bg-secondary-hover"],
     //ghost style which has no backgroung until hover
-    ghost:["hover:bg-gray-100"]
+    ghost:["hover:bg-gray-100"],
+    dark: ["bg-secondary-dark","hover:bg-secondary-dark-hover","text-secondary"]
     },
     //specify all idffernt size you want
   size:{
