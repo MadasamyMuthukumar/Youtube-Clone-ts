@@ -1,7 +1,8 @@
 import { CategoryPills } from "./components/CategoryPills";
 import { PageHeader } from "./layouts/PageHeader";
-import { categories } from "./data/home";
+import { categories, videos } from "./data/home";
 import { useState } from "react";
+import { VideoGridItem } from "./components/VideoGridItem";
 export default function App(){
   //By default selected category was 0th index one
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
@@ -16,11 +17,24 @@ export default function App(){
 
   <div className="grid grid-cols-[auto,1fr] flex-grow-1 overflow-auto"> 
     <div>Sidebar</div>
-    {/* It will contain categories and videos section 
+   
+    <div className="overflow-x-hidden">
+       {/* It will contain categories and videos section 
     1.to make categories sticky on top*/}
     <div className="sticky top-0 bg-white z-10 pb-4">
       <CategoryPills categories={categories} selectedCategory={selectedCategory} onSelect={setSelectedCategory}/>
     </div>
+
+    {/* VIDEO GRID SECTION */}
+    <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
+      {
+        videos.map((video)=>(
+          <VideoGridItem  key={video.id} {...video}/>
+        ))
+      }
+    </div>
+    </div>
+
   </div>
   </div>
 }
