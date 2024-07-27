@@ -7,7 +7,7 @@ import { twMerge } from "tailwind-merge"
 // 1.takes array of classes adds to every buttonStyles
 //2.takes an object which has variants poperty wich determines what keys we want to set
 //transition color makes cool transtion when color changes while hovering
-const buttonStyles = cva(["transition-colors"],{
+export const buttonStyles = cva(["transition-colors"],{
 variants:{
 //own key which contains differnt styles of button
     variant:{
