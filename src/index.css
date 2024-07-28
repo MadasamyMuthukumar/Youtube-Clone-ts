@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* making the scrollbar transparent universally */
+*::-webkit-scrollbar{
+    @apply bg-transparent w-2
+}
+/* making scrollbar visible for specfied color for all scrollbars */
+*::-webkit-scrollbar-thumb {
+    @apply bg-secondary-dark rounded-full
+}
+
+/* hiding the scrollbar for sidebar specifically */
+.scrollbar-hidden::-webkit-scrollbar-thumb{
+    @apply bg-transparent
+
+}
+/* making visible the scrollbar when the sidebar was hovered */
+.scrollbar-hidden:hover::-webkit-scrollbar-thumb{
+    @apply bg-secondary-border
+
+}
