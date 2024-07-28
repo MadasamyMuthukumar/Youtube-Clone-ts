@@ -4,11 +4,14 @@ import { categories, videos } from "./data/home";
 import { useState } from "react";
 import { VideoGridItem } from "./components/VideoGridItem";
 import { Sidebar } from "./layouts/Sidebar";
+import { SidebarProvider } from "./contexts/SidebarContext";
 export default function App(){
   //By default selected category was 0th index one
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   //take entire screen sixe (100vh) and flex direction is column
-  return <div className="max-h-screen flex flex-col"> 
+  return (
+    <SidebarProvider>
+  <div className="max-h-screen flex flex-col"> 
   <PageHeader/>
    
    {/* SECTION WHICH CONTAINS SIDE BAR , CATEGORIES AND MAIN SECTION FOR VIDEOS 
@@ -39,4 +42,6 @@ export default function App(){
 
   </div>
   </div>
+  </SidebarProvider>
+  )
 }

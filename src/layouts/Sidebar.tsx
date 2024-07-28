@@ -1,18 +1,24 @@
-import { ChevronDown, ChevronUp, Clapperboard, Clock, Clock1, Film, Flame, Gamepad2, History, Home, Library, Lightbulb, ListVideo, Music2, Newspaper, PlaySquare, Podcast, Radio, Repeat, Shirt, ShoppingBag, Trophy } from "lucide-react"
+import { ChevronDown, ChevronUp, Clapperboard, Clock1, Film, Flame, Gamepad2, History, Home, Library, Lightbulb, ListVideo, Music2, Newspaper, PlaySquare, Podcast, Radio, Repeat, Shirt, ShoppingBag, Trophy } from "lucide-react"
 import { Children, ElementType, ReactNode, useState } from "react"
 import { Button, buttonStyles } from "../components/Button"
 import { twMerge } from "tailwind-merge"
 import { playlists, subscriptions } from "../data/sidebar"
+import { useSidebarContext } from "../contexts/SidebarContext"
+import { PageHeaderFirstSection } from "./PageHeader"
 
 export function Sidebar(){
-    
+    const {isLargeOpen,isSmallOpen,close}=useSidebarContext();
     return <>
     {/* /**
     SMALLER SIDEBAR SSECTION
      * sticky ot the top and overflow y direction as auto to make it scrollable
      * flex-col to arrrange items in vertical and scrollbar hiddien to make hide default scrollbar
+     * When the large screen was open then Smaller icons section was not shown
+     * In large screen the menu was clicked then isLargeOpen set to false then the Sidebar should be minimized and small section needs to show
+     * If larger section was opened then smaller  should be hide, otherwise smaller should be shown
+     * We are doing this  last three things only for lg(large screens) for small screens it always flex(showinng)
      */ }
-    <aside className="sticky top-0 overflow-y-auto scrollbar-hidden pb-4 flex flex-col ml-1 mr-3 lg:hidden"> 
+    <aside className={`sticky top-0 overflow-y-auto scrollbar-hidden pb-4 flex flex-col ml-1 mr-3 ${isLargeOpen ? "lg:hidden" : "lg:flex"}`}> 
     <SmallSidebarItem Icon={Home} title="Home" url="/" />
     <SmallSidebarItem Icon={Repeat} title="Shorts" url="/shorts" />
         <SmallSidebarItem
@@ -23,15 +29,34 @@ export function Sidebar(){
         <SmallSidebarItem Icon={Library} title="Library" url="/library" />
     </aside>
 
+{/* when on small screen when the sidebar was open then make entire all section darker
+here this div will become giant div occpuying entire space  
+it should be hidden on large screen only appplicable for smaller screen
+when the remaining area was clicked then it call close function which makes sidebar to close*/}
+    {
+      isSmallOpen && (
+        <div onClick={close} className="lg:hidden fixed inset-0 z-[999] bg-secondary-dark opacity-50"/>
+      )
+    }
+
     {/* LARGER SIDEBAR SECTION 
     width will be hardcoded, large screen size it will be stcky
     making absolute because in smaller screensize this section needs to be pop up and for larger it sticky
     overflow will be true and scrollbar hidden
-    lg:flex hidden for making large section vsible only in large screen and defualtly hidden*/}
+    lg:flex hidden for making large section vsible only in large screen and defualtly hidden
+    when isLarge is true then the large section should display in larger screens
+    when isSmall is true which means in smaller screens the large section should display as pop up and hidden when toggled*/}
 
-    <aside className="w-56 lg:sticky absolute top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col gap-2 px-2 lg:flex hidden">
+    <aside className={`w-56 lg:sticky absolute top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col gap-2 px-2 
+      ${isLargeOpen ? "lg:flex" : "lg:hidden"} ${isSmallOpen ? "flex z-[999] bg-white max-h-screen" : "hidden"}`}>
         {/* WE have differenc sections in large side bar each has items so we are having below two components
         large side bar section can have title of section and number of visible items for a section(remaining will be inn show more) */}
+         
+         {/* Rendering pageHeader in Larger SideBar to show menu icon in larger section 
+         hiding in large screen to avoid doube logo problem*/}
+         <div className="lg:hidden pt-2 pb-4 px-2 sticky top-0 bg-white">
+          <PageHeaderFirstSection />
+          </div>
          
          <LargeSidebarSection>
             <LargeSidebarItem isActive IconOrImgUrl={Home} title="Home" url="/" />
